@@ -3,6 +3,8 @@ document.addEventListener("DOMContentLoaded", function() {
     const entriesDropdown = document.getElementById("entries-dropdown");
     const prevPageLink = document.getElementById("prev-page");
     const nextPageLink = document.getElementById("next-page");
+    const firstPageLink = document.getElementById("first-page");
+    const lastPageLink = document.getElementById("last-page");
     const currentPageElement = document.getElementById("current-page");
 
     let currentPage = parseInt(currentPageElement.textContent);
@@ -10,16 +12,17 @@ document.addEventListener("DOMContentLoaded", function() {
     let pageSize = parseInt(entriesDropdown.value);
     const tableBody = document.getElementById("table-body");
 
-    function updateShowingEntriesText(page, totalPages, totalRecords) {
+    function updateShowingEntriesText(page, pageSize, totalRecords) {
         const paginationContainer = document.getElementById("pagination");
         const showingEntriesText = paginationContainer.querySelector("span");
     
-        // Calculate the range of entries being shown
-        // const startEntry = (page - 1) * pageSize + 1;
-        // const endEntry = Math.min(startEntry + pageSize - 1, totalRecords);
+       // Calculate the range of entries being shown
+        const startEntry = (page - 1) * pageSize + 1;
+        const endEntry = Math.min(startEntry + pageSize - 1, totalRecords);
     
         // Update the text
-        showingEntriesText.textContent = `Showing ${page} to ${totalPages} pages of ${totalRecords} entries`;
+        showingEntriesText.textContent = `Showing ${startEntry.toLocaleString()} to ${endEntry.toLocaleString()} pages of ${totalRecords.toLocaleString()} entries`;
+
     }
     
     
@@ -38,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 <td>${item.email}</td>
                 <td>${item.date_of_birth}</td>
                 <td>${item.class_name}</td>
-                <td>${moment(item.date_created).format('YYYY-MM-DD HH:mm:ss')}</td>
+                <td>${formatDate(item.date_created)}</td>
             `;
             tableBody.appendChild(row);
         });
@@ -54,7 +57,6 @@ document.addEventListener("DOMContentLoaded", function() {
         fetch(`http://172.20.94.24:2000/api/rest/teachers?page=${page}&pageSize=${pageSize}`, requestOptions)
             .then(response => response.json())
             .then(data => {
-                console.log("Fetched data:", data);
                 const noRecordsMessage = document.getElementById('no-records-message');
                 const pagination = document.getElementById('pagination');
         
@@ -69,7 +71,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 totalPages = data.total_Pages; 
                 totalRecords=data.total_records;
                 updatePaginationLinks();
-                updateShowingEntriesText(page, totalPages, totalRecords);
+                updateShowingEntriesText(page, pageSize, totalRecords);
                 }
             })
             .catch(error => {
@@ -111,8 +113,6 @@ document.addEventListener("DOMContentLoaded", function() {
     }
     
     
-    
-    
     entriesDropdown.addEventListener("change", function() {
         pageSize = parseInt(entriesDropdown.value);
         fetchData(currentPage, pageSize);
@@ -134,5 +134,32 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
+    firstPageLink.addEventListener("click", function(event) {
+        event.preventDefault();
+        if (currentPage !== 1) {
+            currentPage = 1;
+            fetchData(currentPage, pageSize);
+        }
+    });
+    
+    lastPageLink.addEventListener("click", function(event) {
+        event.preventDefault();
+        if (currentPage !== totalPages) {
+            currentPage = totalPages;
+            fetchData(currentPage, pageSize);
+        }
+    });
+
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        const seconds = String(date.getSeconds()).padStart(2, '0');
+        return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    }
+    
 
 });

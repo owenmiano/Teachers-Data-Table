@@ -41,7 +41,7 @@ h2{
 }
 
 .fl-table td, .fl-table th {
-    text-align: center;
+    text-align: left;
     padding: 8px;
 }
 
@@ -65,6 +65,7 @@ h2{
 }
 
 
+
 .pagination-container {
     position: relative;
 }
@@ -75,26 +76,26 @@ h2{
     margin-top: 20px;
     margin-bottom: 20px;
     position: absolute;
-    top: 50%; /* Center vertically */
-    left: 50%; /* Center horizontally */
-    transform: translate(-50%, -50%); /* Adjust to center */
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%);
 }
 
 .pagination {
     display: flex;
-    align-items: center; /* Vertically center items */
-    justify-content: center; /* Horizontally center items */
-    margin-top: 20px; /* Adjust margin top */
-    margin-bottom: 20px; /* Adjust margin bottom */
+    align-items: center; 
+    justify-content: center;
+    margin-top: 20px; 
+    margin-bottom: 20px; 
 }
 
 .pagination > * {
-    margin: 0 5px; /* Add margin around each child element */
+    margin: 0 5px; 
 }
 
 .pages {
     display: flex;
-    align-items: center; /* Vertically center items */
+    align-items: center; 
 }
 .showing-entries {
     margin-right: auto;
