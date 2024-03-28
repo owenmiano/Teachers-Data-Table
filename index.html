@@ -8,7 +8,11 @@
 </head>
 <body>
     <h2>Teachers Data Table</h2>
-    <div class="table-wrapper">
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="loading-spinner"></div>
+    </div>
+    <div id="no-records-message" style="display: none;" class="no-records-message">No records found</div>
+    <div class="table-wrapper" id="table-wrapper">
         <div class="show-entries">
             <span>Show entries:</span>
             <select id="entries-dropdown">
@@ -36,20 +40,19 @@
                 <tbody id="table-body"></tbody>
         </table>
         <div class="pagination-container">
-            <div id="no-records-message" style="display: none;">No records found.</div>
             <div class="pagination" id="pagination">
                 <span class="showing-entries"></span>
                 <a href="#" id="first-page">&lt;&lt;</a>
-                <a href="#" id="prev-page">&laquo;</a>
-                <div class="pages">
+                <a href="#" id="prev-page">&lt;</a>
+                <!-- <div class="pages">
                     <a href="#" id="current-page" class="page-link active">1</a>
-                </div>
-                <a href="#" id="next-page">&raquo;</a>
+                </div> -->
+                <a href="#" id="next-page">&gt;</a>
                 <a href="#" id="last-page">&gt;&gt;</a>
             </div>
         </div>
         
-    
+    </div>
     <script src="index.js"></script>
 </body>
 </html>

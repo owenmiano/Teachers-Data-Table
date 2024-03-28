@@ -5,12 +5,11 @@ document.addEventListener("DOMContentLoaded", function() {
     const nextPageLink = document.getElementById("next-page");
     const firstPageLink = document.getElementById("first-page");
     const lastPageLink = document.getElementById("last-page");
-    const currentPageElement = document.getElementById("current-page");
+    // const currentPageElement = document.getElementById("current-page");
 
-    let currentPage = parseInt(currentPageElement.textContent);
+    let currentPage = 1;
     let totalPages,totalRecords;
     let pageSize = parseInt(entriesDropdown.value);
-    const tableBody = document.getElementById("table-body");
 
     function updateShowingEntriesText(page, pageSize, totalRecords) {
         const paginationContainer = document.getElementById("pagination");
@@ -21,14 +20,74 @@ document.addEventListener("DOMContentLoaded", function() {
         const endEntry = Math.min(startEntry + pageSize - 1, totalRecords);
     
         // Update the text
-        showingEntriesText.textContent = `Showing ${startEntry.toLocaleString()} to ${endEntry.toLocaleString()} pages of ${totalRecords.toLocaleString()} entries`;
+      //  showingEntriesText.textContent = `Showing ${page} to ${endEntry.toLocaleString()} of ${totalRecords.toLocaleString()} entries`;
+        showingEntriesText.textContent = `Page ${page.toLocaleString()} of ${totalPages.toLocaleString()}`;
 
     }
+
+    fetchData(currentPage, pageSize);
+
+    function clearTableAndDisplayError() {
+        const noRecordsMessage = document.getElementById('no-records-message');
+        const tableBody = document.getElementById('table-body');
+        const tableWrapper = document.getElementById('table-wrapper');
+        noRecordsMessage.style.display = 'block'; // Show the message
+        tableBody.innerHTML = ''; // Clear table body
+        tableWrapper.style.display = 'none'; // Hide the table wrapper
+    }
+    
+    function showLoading() {
+        document.getElementById('loading-overlay').style.display = 'flex';
+        const tableWrapper = document.getElementById('table-wrapper');
+        tableWrapper.style.display = 'none';
+    }
+    
+    function hideLoading() {
+        document.getElementById('loading-overlay').style.display = 'none';
+    }
+    
+    function fetchData(page, pageSize) {
+        showLoading(); // Show loading message
+    
+        const requestOptions = {
+            method: 'GET',
+        };
+    
+        fetch(`http://172.20.94.24:2001/api/rest/teachers?page=${page}&pageSize=${pageSize}`, requestOptions)
+        .then(response => response.json())
+        .then(data => {
+            const noRecordsMessage = document.getElementById('no-records-message');
+            const tableBody = document.getElementById('table-body');
+            const tableWrapper = document.getElementById('table-wrapper');
+    
+            hideLoading(); // Hide loading message
+    
+            if (!data) {
+                clearTableAndDisplayError();
+            } else {
+                noRecordsMessage.style.display = 'none'; 
+    
+                updateTable(data.data, tableBody);
+                totalPages = data.total_Pages; 
+                totalRecords=data.total_records;
+                // updatePaginationLinks();
+                updateShowingEntriesText(page, pageSize, totalRecords);
+                tableWrapper.style.display = 'block'; // Show the table wrapper
+            }
+        })
+        .catch(error => {
+            console.error("Error fetching data:", error);
+            hideLoading(); // Hide loading message
+            clearTableAndDisplayError();
+        });
+    } 
     
     
-    // Call the function initially and whenever the page or total entries change
-    function updateTable(data) {
-        tableBody.innerHTML = ""; 
+        
+    
+    
+    function updateTable(data, tableBody) {
+        tableBody.innerHTML = ''; // Clear table body
         data.forEach(item => {
             const row = document.createElement("tr");
             row.innerHTML = `
@@ -47,70 +106,36 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
     
-    fetchData(currentPage, pageSize);
-
-    function fetchData(page, pageSize) {
-        const requestOptions = {
-            method: 'GET',
-        };
-
-        fetch(`http://172.20.94.24:2000/api/rest/teachers?page=${page}&pageSize=${pageSize}`, requestOptions)
-            .then(response => response.json())
-            .then(data => {
-                const noRecordsMessage = document.getElementById('no-records-message');
-                const pagination = document.getElementById('pagination');
-        
-                if (data.data.length === 0) {
-                    noRecordsMessage.style.display = 'block'; 
-                    pagination.style.display = 'none'; 
-                } else {
-                    noRecordsMessage.style.display = 'none'; 
-                    pagination.style.display = 'flex'; 
-
-                updateTable(data.data);
-                totalPages = data.total_Pages; 
-                totalRecords=data.total_records;
-                updatePaginationLinks();
-                updateShowingEntriesText(page, pageSize, totalRecords);
-                }
-            })
-            .catch(error => {
-                console.error("Error fetching data:", error);
-                const noRecordsMessage = document.getElementById('no-records-message');
-                const pagination = document.getElementById('pagination');
-                noRecordsMessage.style.display = 'block'; // Show the message
-                pagination.style.display = 'none'; // Hide pagination
-            });
-    }
-  
-    function updatePaginationLinks() {
-        currentPageElement.textContent = currentPage;
-        const pagesContainer = paginationContainer.querySelector(".pages");
     
-        if (pagesContainer) {
-            pagesContainer.innerHTML = "";
     
-            let startPage = Math.max(1, currentPage - 2);
-            let endPage = Math.min(totalPages, currentPage + 2);
+    // function updatePaginationLinks() {
+    //     currentPageElement.textContent = currentPage;
+    //     const pagesContainer = paginationContainer.querySelector(".pages");
     
-            for (let i = startPage; i <= endPage; i++) {
-                const pageLink = document.createElement("a");
-                pageLink.href = "#";
-                pageLink.textContent = i;
-                pageLink.id = `page-${i}`; 
-                pageLink.classList.add("page-link");
-                if (i === currentPage) {
-                pageLink.classList.add("active"); 
-                }
-                pageLink.addEventListener("click", function(event) {
-                    event.preventDefault();
-                    currentPage = i;
-                    fetchData(currentPage, pageSize);
-                });
-                pagesContainer.appendChild(pageLink);
-            }
-        }
-    }
+    //     if (pagesContainer) {
+    //         pagesContainer.innerHTML = "";
+    
+    //         let startPage = Math.max(1, currentPage - 2);
+    //         let endPage = Math.min(totalPages, currentPage + 2);
+    
+    //         for (let i = startPage; i <= endPage; i++) {
+    //             const pageLink = document.createElement("a");
+    //             pageLink.href = "#";
+    //             pageLink.textContent = i;
+    //             pageLink.id = `page-${i}`; 
+    //             pageLink.classList.add("page-link");
+    //             if (i === currentPage) {
+    //             pageLink.classList.add("active"); 
+    //             }
+    //             pageLink.addEventListener("click", function(event) {
+    //                 event.preventDefault();
+    //                 currentPage = i;
+    //                 fetchData(currentPage, pageSize);
+    //             });
+    //             pagesContainer.appendChild(pageLink);
+    //         }
+    //     }
+    // }
     
     
     entriesDropdown.addEventListener("change", function() {
