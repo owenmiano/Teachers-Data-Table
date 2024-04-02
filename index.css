@@ -63,7 +63,9 @@ h2{
 .fl-table tr:nth-child(even) {
     background: #F8F8F8;
 }
-
+.fl-table tbody tr:hover {
+    background-color: #aac4de; /* Change to whatever color you prefer */
+}
 
 
 .pagination-container {
