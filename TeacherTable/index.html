@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Online Exam System</title>
+    <link rel="stylesheet" href="index.css" />
+    <link rel="stylesheet" href="/home/index.css">
+    <link
+      href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <script src="/main/main.js"></script>
+  </head>
+  <body>
+    <div class="sidebar">
+      <div class="logo-details">
+        <i class="bx bx-book"></i>
+        <span class="logo_name">Online Exam</span>
+      </div>
+      <ul class="nav-links">
+        <!-- <li>
+              <a href="#" class="active">
+                <i class='bx bx-grid-alt' ></i>
+                <span class="links_name">Dashboard</span>
+              </a>
+            </li> -->
+        <li class="nav-item">
+          <a href="/TeacherTable/index.html">
+            <i class="bx bx-table"></i>
+            <span class="links_name">Teachers</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="/ChangePassword/index.html">
+            <i class="bx bx-lock-alt"></i>
+            <span class="links_name">Change Password</span>
+          </a>
+        </li>
+        <li class="log_out">
+          <a href="#" id="logOut">
+            <i class="bx bx-log-out"></i>
+            <span class="links_name">Log out</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <section class="home-section">
+      <nav>
+        <div class="sidebar-button">
+          <i class="bx bx-menu sidebarBtn"></i>
+        </div>
+        <div class="profile-details">
+          <span class="admin_name" id="user"></span>
+        </div>
+      </nav>
+
+      <div class="loading-overlay" id="loading-overlay">
+        <div class="loading-spinner"></div>
+      </div>
+      <div
+        id="no-records-message"
+        style="display: none"
+        class="no-records-message"
+      >
+        No records found
+      </div>
+      <div class="table-container">
+      <div class="table-wrapper" id="table-wrapper">
+        
+        <div class="search-section">
+          <select id="column-select">
+            <option value="">All</option>
+              <option value="teacher_id">ID</option>
+              <option value="teacher_name">Teacher</option>
+              <option value="tsc_number">TSC Number</option>
+              <option value="id_number">ID Number</option>
+              <option value="kra_pin">KRA PIN</option>
+              <option value="phone">Phone Number</option>
+              <option value="email">Email Address</option>
+              <option value="date_of_birth">Date of Birth</option>
+              <option value="class_name">Class Assigned</option>
+              <option value="date_created">Date Created</option>
+          </select>
+
+          <input type="search" id="search-input" placeholder="Search...">
+          <button id="search-button">
+            <i class="bx bx-search"></i> 
+            Search
+        </button>
+      </div>
+        <table class="fl-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Teacher</th>
+              <th>TSC Number</th>
+              <th>ID Number</th>
+              <th>KRA PIN</th>
+              <th>Phone Number</th>
+              <th>Email Address</th>
+              <th>Date of Birth</th>
+              <th>Class Assigned</th>
+              <th>Date Created</th>
+            </tr>
+          </thead>
+          <tbody id="table-body"></tbody>
+        </table>
+        <div class="pagination-container">
+          <div class="show-entries">
+            <span>Show entries:</span>
+            <select id="entries-dropdown">
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="20">20</option>
+              <option value="50">50</option>
+            </select>
+          </div>
+          <div class="pagination" id="pagination">
+            
+              <a href="#" id="first-page">&lt;&lt;</a>
+              <a href="#" id="prev-page">&lt;</a>
+              <input type="number" id="page-input" min="1" style="width: 50px;">
+              <a href="#" id="next-page">&gt;</a>
+              <a href="#" id="last-page">&gt;&gt;</a>
+          </div>
+      </div>
+      
+      </div>
+ 
+    </section>
+    
+    <script src="/home/home.js"></script>
+    <script src="teachers.js"></script>
+  </body>
+</html>

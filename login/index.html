@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Online Exam System </title>
+    <link rel="stylesheet" href="index.css" />
+    <link
+      href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <script src="/main/main.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="login form">
+        <header>Login</header>
+        <div id="errorMessages"></div>
+        <form id="loginForm" method="POST">
+          <input type="text" id="username" placeholder="Username" />
+          <div class="password-input">
+            <input type="password" id="password" placeholder="Password" />
+            <i class="bx bx-hide" id="togglePassword"></i>
+          </div>
+          <a href="#" id="forgotPassword">Forgot password?</a>
+          <input type="button" id="loginButton" class="button" value="Login" />
+        </form>
+      </div>
+    </div>
+    <script src="login.js"></script>
+  </body>
+</html>
