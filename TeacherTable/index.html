@@ -66,9 +66,10 @@
         No records found
       </div>
       <div class="table-container">
-      <div class="table-wrapper" id="table-wrapper">
+        <div class="table-wrapper" id="table-wrapper">
         
-        <div class="search-section">
+        <div class="filter-section">
+          <button id="advanced-filter"><i class="bx bx-filter"></i></button>
           <select id="column-select">
             <option value="">All</option>
               <option value="teacher_id">ID</option>
@@ -83,11 +84,11 @@
               <option value="date_created">Date Created</option>
           </select>
 
-          <input type="search" id="search-input" placeholder="Search...">
-          <button id="search-button">
-            <i class="bx bx-search"></i> 
-            Search
-        </button>
+          <div class="search-container">
+            <input type="search" id="search-input" placeholder="Search..">
+            <button id="search-button"><i class="bx bx-search"></i></button>
+        </div>
+        
       </div>
         <table class="fl-table">
           <thead>
@@ -120,16 +121,72 @@
             
               <a href="#" id="first-page">&lt;&lt;</a>
               <a href="#" id="prev-page">&lt;</a>
-              <input type="number" id="page-input" min="1" style="width: 50px;">
+              <input type="number" id="page-input" min="1">
               <a href="#" id="next-page">&gt;</a>
               <a href="#" id="last-page">&gt;&gt;</a>
           </div>
-      </div>
+      </div>  
+      </div>  
+    </section>
+    <div id="filter-drawer" class="drawer">
+      <a class="closebtn"><i class="bx bx-x"></i></a>
+      <div class="drawer-content">
+          <h2>Advanced Filter</h2>
+          <form>
+            <div class="filter-container">
+                <select id="advanced-filter-column">
+                    <option value="">All</option>
+                    <option value="teacher_id">ID</option>
+                    <option value="teacher_name">Teacher</option>
+                    <option value="tsc_number">TSC Number</option>
+                    <option value="id_number">ID Number</option>
+                    <option value="kra_pin">KRA PIN</option>
+                    <option value="phone">Phone Number</option>
+                    <option value="email">Email Address</option>
+                    <option value="date_of_birth">Date of Birth</option>
+                    <option value="class_name">Class Assigned</option>
+                    <option value="date_created">Date Created</option>
+                </select>
+        
+                <select id="advanced-filter-relation">
+                    <option value="eq">Equals</option>
+                    <option value="contains">Contains</option>
+                    <option value="neq">Not Equal To</option>
+                    <option value="begins">Begins with</option>
+                    <option value="ends">Ends with</option>
+                    <option value="lt">Less Than</option>
+                    <option value="lte">Less Than or Equal To</option>
+                    <option value="gt">Greater Than</option>
+                    <option value="gte">Greater Than or Equal To</option>
+                    <option value="like">Like</option>
+                    <option value="between">Between</option>
+                </select>
+        
+                <input type="text" id="advanced-filter-value" placeholder="Search...">
+                <button id="remove-filter-button">
+                    <i class="bx bx-minus"></i>
+                </button>
+            </div>
+            <div id="filter-container"></div>
+            <button id="add-filter-button">
+                <i class="bx bx-plus"></i>
+            </button>
+        
+            <div class="button-container">
+                <input type="submit" id="submit-filter" value="Submit">
+                <input type="reset" id="reset-filter" value="Reset">
+            </div>
+        </form>
+        
+          
       
       </div>
- 
-    </section>
+  </div>
+  
+  
+  
     
+  </div>
     <script src="/home/home.js"></script>
     <script src="teachers.js"></script>
   </body>

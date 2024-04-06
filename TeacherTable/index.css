@@ -20,9 +20,10 @@ h2{
 /* Table Styles */
 
 .table-wrapper {
-    padding: 70px;
+    padding:70px;
     overflow-x: auto; 
-    max-height: 500px; 
+    position: relative;
+    /* max-height: 500px;  */
 }
 
 .show-entries {
@@ -33,7 +34,7 @@ h2{
     border-radius: 5px;
     font-size: 12px;
     font-weight: normal;
-    border: none;
+    border: 1px solid #ddd; /* Add border */
     border-collapse: collapse;
     width: 100%;
     max-width: 100%;
@@ -67,11 +68,6 @@ h2{
 }
 .fl-table tbody tr:hover {
     background-color: #aac4de; 
-}
-
-
-.pagination-container {
-    position: relative;
 }
 
 #no-records-message {
@@ -119,49 +115,72 @@ h2{
     margin-bottom: 20px; 
 } */
 
-.pagination > * {
-    margin: 0 5px; 
-}
-
-.pages {
-    display: flex;
-    align-items: center; 
-}
-/*  */
-
-.pagination-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 20px; 
-    margin-bottom: 20px;
-  }
-  
-  .show-entries {
-    display: flex;
-    align-items: center;
-  }
-  
   .pagination {
     display: flex;
     align-items: center;
   }
   
 
-  .search-section {
+  .filter-section {
     display: flex;
     align-items: center;
     margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+#advanced-filter {
+    margin-right: 10px; 
+    cursor: pointer;
+    width: 50px; 
+    background: #ddd;
+    font-size: 17px;
+    border: none;
+    border-radius: 5px;
 }
 
 #column-select {
-    margin-right: 10px; 
+    margin-right: 10px;
+    border: 1px solid #ccc; /* Add border */
+    border-radius: 5px; /* Optional: Add border radius for rounded corners */
+    padding: 5px; /* Optional: Add padding for better appearance */
+}
+
+
+.search-container {
+    display: flex;
+    margin: 0;
+    padding: 5px;
+     
 }
 
 #search-input {
-    margin-right: 10px; 
+    width: 200px; 
+    font-size: 17px;
+    border: 1px solid #ccc;
+    border-top-left-radius: 5px; 
+    border-bottom-left-radius: 5px; 
 }
 
+#search-button {
+    width: 50px; 
+    background: #ddd;
+    font-size: 17px;
+    border: none;
+    cursor: pointer;
+    border-top-right-radius: 5px; 
+    border-bottom-right-radius: 5px; 
+}
+
+
+
+.pagination-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: auto; /* Align to the right */
+}
 
 .pagination a {
     color: black;
@@ -185,13 +204,101 @@ h2{
   background-color: #ddd;
 }
 
+#page-input {
+    margin: 0 5px; 
+    width: 50px;
+    border-radius: 5px;
+}
+
+.show-entries {
+    display: flex;
+    align-items: center;
+  }
+
+  #entries-dropdown {
+    border-radius: 5px; /* Add border radius */
+    margin-right: 10px;
+}
+  
+/* .drawer {
+    display: none;
+} */
+.drawer {
+    height: 100%;
+    width: 600px;
+    position: fixed;
+    z-index: 10;
+    top: 0;
+    right: 0; 
+    background-color: #0A2558;
+    transition: 0.5s;
+    padding-top: 60px;
+    display: none; /* Hide the drawer by default */
+}
+
+.drawer.open {
+    display: block; /* Display the drawer when the open class is applied */
+}
+
+.drawer .closebtn {
+    position: absolute;
+    right: 20px; 
+    font-size: 30px; 
+    z-index: 11; 
+    color: white; 
+    cursor: pointer;
+}
+
+.drawer .closebtn:hover {
+    color: red;
+}
+
+.filter-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#advanced-filter-column,
+#advanced-filter-relation,
+#advanced-filter-value,
+#remove-filter-button {
+    margin-right: 10px; 
+}
+
+#remove-filter-button {
+    border: none; 
+    font-size: 17px;
+    cursor: pointer;
+}
+
+#add-filter-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    font-size: 17px; 
+    cursor: pointer;
+    border-radius: 5px; 
+    margin-top: 20px; 
+    margin-left: 30px; /* Adjust left margin */
+}
+
+.button-container {
+    margin-top: 20px; /* Adjust the top margin as needed */
+    margin-left: 30px; /* Adjust the left margin as needed */
+    gap: 40px; /* Add spacing between elements */
+}
+
+
+
 /* Responsive */
 @media (max-width: 767px) {
     .fl-table {
-        display: block;
         width: 100%;
+        overflow: auto; /* Enable horizontal scrolling */
     }
-    .table-wrapper:before{
+    .table-wrapper:before {
         content: "Scroll horizontally >";
         display: block;
         text-align: right;
@@ -199,53 +306,48 @@ h2{
         color: white;
         padding: 0 0 10px;
     }
-    .fl-table thead, .fl-table tbody, .fl-table thead th {
-        display: block;
+    .fl-table thead,
+    .fl-table tbody {
+        display: table;
+        width: 100%;
     }
-    .fl-table thead th:last-child{
+    .fl-table thead th,
+    .fl-table tbody td {
+        display: table-cell;
+    }
+    .fl-table thead th:last-child {
         border-bottom: none;
     }
     .fl-table thead {
-        float: left;
+        position: sticky; /* Ensure the header sticks at the top */
+        top: 0;
+        z-index: 1; /* Ensure header is above content */
+        background-color: #fff; /* Adjust as needed */
     }
     .fl-table tbody {
-        width: auto;
-        position: relative;
-        overflow-x: auto;
-    }
-    .fl-table td, .fl-table th {
-        padding: 20px .625em .625em .625em;
-        height: 60px;
-        vertical-align: middle;
-        box-sizing: border-box;
-        overflow-x: hidden;
-        overflow-y: auto;
-        width: 120px;
-        font-size: 13px;
-        text-overflow: ellipsis;
-    }
-    .fl-table thead th {
-        text-align: left;
-        border-bottom: 1px solid #f7f7f9;
+        overflow-y: auto; /* Enable vertical scrolling */
     }
     .fl-table tbody tr {
-        display: table-cell;
-    }
-    .fl-table tbody tr:nth-child(odd) {
-        background: none;
-    }
-    .fl-table tr:nth-child(even) {
-        background: transparent;
-    }
-    .fl-table tr td:nth-child(odd) {
-        background: #F8F8F8;
-        border-right: 1px solid #E6E4E4;
-    }
-    .fl-table tr td:nth-child(even) {
-        border-right: 1px solid #E6E4E4;
+        display: table-row;
     }
     .fl-table tbody td {
-        display: block;
+        display: table-cell;
         text-align: center;
     }
+
+    .pagination > * {
+        margin: 5px; /* Adjust spacing for smaller screens */
+    }
+
+    .pagination-container {
+        flex-direction: column; /* Stack elements vertically */
+        align-items: flex-start; /* Align items to the start */
+    }
+
+    .pagination {
+        margin-bottom: 10px; /* Add some spacing between pagination and show entries */
+    }
 }
+
+
+

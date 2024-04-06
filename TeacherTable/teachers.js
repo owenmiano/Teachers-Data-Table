@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", function() {
-    const paginationContainer = document.getElementById("pagination");
+    const advancedFilterButton = document.getElementById("advanced-filter");
+    const filterDrawer = document.getElementById("filter-drawer");
     const entriesDropdown = document.getElementById("entries-dropdown");
     const prevPageLink = document.getElementById("prev-page");
     const nextPageLink = document.getElementById("next-page");
@@ -17,8 +18,37 @@ document.addEventListener("DOMContentLoaded", function() {
     //     const endEntry = Math.min(startEntry + pageSize - 1, totalRecords);
     //     showingEntriesText.textContent = `Page ${page.toLocaleString()} of ${totalPages.toLocaleString()}`;
     // }
+    function openFilterDrawer() {
+        filterDrawer.classList.add("open"); // Add the 'open' class to show the drawer
+    }
+    
+    // Function to close the filter drawer
+    function closeFilterDrawer() {
+        filterDrawer.classList.remove("open"); // Remove the 'open' class to hide the drawer
+    }
+    
+    // Add event listener to the advanced filter button
+    advancedFilterButton.addEventListener("click", function() {
+        openFilterDrawer();
+    });
+
+    const closeButton = document.querySelector(".closebtn");
+    // Add event listener to the close button
+    closeButton.addEventListener("click", function() {
+        closeFilterDrawer();
+    });
+    
+    // Add event listener to close the drawer when clicked outside
+    window.addEventListener("click", function(event) {
+        if (event.target === filterDrawer) {
+            closeFilterDrawer();
+        }
+    });
+
 
     fetchData(currentPage, pageSize);
+
+
 
     function clearTableAndDisplayError() {
         const noRecordsMessage = document.getElementById('no-records-message');
@@ -50,7 +80,7 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         };
 
-        let url = `http://172.20.94.24:2001/api/rest/teachers?page=${page}&pageSize=${pageSize}`;
+        let url = `http://localhost:2001/api/rest/teachers?page=${page}&pageSize=${pageSize}`;
         if (filter !== '') {
             url += `&filter=${filter}`;
         }
@@ -73,6 +103,8 @@ document.addEventListener("DOMContentLoaded", function() {
                     } else {
                         updateTable([data.data], tableBody);
                     }
+                    updateLinkStatus();
+                    updatePageInput();
                     totalPages = data.total_Pages;
                     totalRecords = data.total_records;
                     tableWrapper.style.display = 'block';
@@ -116,8 +148,7 @@ document.addEventListener("DOMContentLoaded", function() {
             currentPage--;
             fetchData(currentPage, pageSize);
         }
-        updateLinkStatus();
-        updatePageInput();
+        
     });
 
     nextPageLink.addEventListener("click", function(event) {
@@ -126,8 +157,7 @@ document.addEventListener("DOMContentLoaded", function() {
             currentPage++;
             fetchData(currentPage, pageSize);
         }
-        updateLinkStatus();
-        updatePageInput();
+
     });
 
     firstPageLink.addEventListener("click", function(event) {
@@ -136,8 +166,7 @@ document.addEventListener("DOMContentLoaded", function() {
             currentPage = 1;
             fetchData(currentPage, pageSize);
         }
-        updateLinkStatus();
-        updatePageInput();
+
     });
 
     lastPageLink.addEventListener("click", function(event) {
@@ -146,8 +175,7 @@ document.addEventListener("DOMContentLoaded", function() {
             currentPage = totalPages;
             fetchData(currentPage, pageSize);
         }
-        updateLinkStatus();
-        updatePageInput();
+
     });
 
     function updateLinkStatus() {
@@ -201,6 +229,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
     
     // Call updatePageInput initially to set the initial value
+    updateLinkStatus();
     updatePageInput();
     
     pageInput.addEventListener("change", function() {
@@ -212,5 +241,44 @@ document.addEventListener("DOMContentLoaded", function() {
             updatePageInput();
         }
     });
-    
+
+
+// Function to create and append the filter elements
+document.getElementById("add-filter-button").addEventListener("click", function(event) {
+    event.preventDefault(); // Prevent the default form submission behavior
+    addFilter(); // Call the addFilter function
+});
+
+
+function addFilter() {
+    // Clone the filter container
+    const filterContainer = document.querySelector(".filter-container").cloneNode(true);
+
+    // Clear input values in the cloned filter container
+    filterContainer.querySelector("#advanced-filter-column").value = "";
+    filterContainer.querySelector("#advanced-filter-relation").value = "";
+    filterContainer.querySelector("#advanced-filter-value").value = "";
+
+    // Append the cloned filter container after the last filter container
+    const filterContainerWrapper = document.getElementById("filter-container");
+    filterContainerWrapper.appendChild(filterContainer);
+
+    // Get remove buttons inside the newly added filter container
+    const removeButtons = filterContainer.querySelectorAll(".remove-filter-button");
+removeButtons.forEach(button => {
+    button.addEventListener("click", function(event) {
+        event.preventDefault(); // Prevent default form submission behavior
+        console.log("remove button clicked")
+        const containerToRemove = button.closest('.filter-container');
+        if (containerToRemove) {
+            containerToRemove.remove();
+        }
+    });
+});
+
+}
+
+
+// Event listener to remove a filter container
+
 });

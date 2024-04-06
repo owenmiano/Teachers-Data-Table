@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
             role: localStorage.getItem('role')
         };
         try {
-            const response = await fetch('http://172.20.94.24:2001/api/rest/auth/logout', {
+            const response = await fetch('http://localhost:2001/api/rest/auth/logout', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'

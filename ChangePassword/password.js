@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", function() {
             newPassword: hashedNewPassword
         };
         try {
-            const response = await fetch('http://172.20.94.24:2001/api/rest/auth/change-password', {
+            const response = await fetch('http://localhost:2001/api/rest/auth/change-password', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,

@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", function() {
         async function refreshToken() {
             const token = localStorage.getItem('token');
             try {
-                const response = await fetch('http://172.20.94.24:2001/api/rest/auth/refresh-token', {
+                const response = await fetch('http://localhost:2001/api/rest/auth/refresh-token', {
                     method: 'PUT',
                     headers: {
                         'Authorization': `Bearer ${token}`,

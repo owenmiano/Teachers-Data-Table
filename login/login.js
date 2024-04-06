@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function() {
             password: hashedPassword
         };
         try {
-            const response = await fetch('http://172.20.94.24:2001/api/rest/auth/login', {
+            const response = await fetch('http://localhost:2001/api/rest/auth/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
