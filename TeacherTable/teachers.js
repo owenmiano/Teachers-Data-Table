@@ -80,7 +80,7 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         };
 
-        let url = `http://localhost:2001/api/rest/teachers?page=${page}&pageSize=${pageSize}`;
+        let url = `http://172.20.94.24:2001/api/rest/teachers?page=${page}&pageSize=${pageSize}`;
         if (filter !== '') {
             url += `&filter=${filter}`;
         }
@@ -256,28 +256,32 @@ function addFilter() {
 
     // Clear input values in the cloned filter container
     filterContainer.querySelector("#advanced-filter-column").value = "";
-    filterContainer.querySelector("#advanced-filter-relation").value = "";
+    filterContainer.querySelector("#advanced-filter-relation").value = "eq";
     filterContainer.querySelector("#advanced-filter-value").value = "";
 
     // Append the cloned filter container after the last filter container
-    const filterContainerWrapper = document.getElementById("filter-container");
+    const filterContainerWrapper = document.getElementById("cloned-filter-container");
     filterContainerWrapper.appendChild(filterContainer);
 
     // Get remove buttons inside the newly added filter container
     const removeButtons = filterContainer.querySelectorAll(".remove-filter-button");
-removeButtons.forEach(button => {
-    button.addEventListener("click", function(event) {
-        event.preventDefault(); // Prevent default form submission behavior
-        console.log("remove button clicked")
-        const containerToRemove = button.closest('.filter-container');
-        if (containerToRemove) {
-            containerToRemove.remove();
-        }
+    removeButtons.forEach(button => {
+        button.addEventListener("click", removeFilter);
+        button.addEventListener("click", function(event) {
+            event.stopPropagation(); // Stop the event from propagating further
+        });
     });
-});
-
 }
 
+function removeFilter(event) {
+    event.preventDefault(); // Prevent default form submission behavior
+    console.log("remove button clicked");
+    const button = event.target;
+    const containerToRemove = button.closest('.cloned-filter-container');
+    if (containerToRemove) {
+        containerToRemove.remove();
+    }
+}
 
 // Event listener to remove a filter container
 

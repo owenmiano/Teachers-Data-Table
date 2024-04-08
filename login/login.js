@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function() {
             password: hashedPassword
         };
         try {
-            const response = await fetch('http://localhost:2001/api/rest/auth/login', {
+            const response = await fetch('http://172.20.94.24:2001/api/rest/auth/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 localStorage.setItem('role', responseData.userInfo.role);
                 localStorage.setItem('expirationTime', responseData.userInfo.expirationTime);
                 // Redirect to home page
-                window.location.href = "/home/index.html";
+                window.location.href = "../home/index.html";
                 //Prevent going back to the login page
                 window.history.pushState(null, "", window.location.href);
                 window.addEventListener("popstate", function() {
@@ -84,12 +84,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 async function hashPassword(password) {
-    const encoder = new TextEncoder();
-    const data = encoder.encode(password);
-    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-    return hashHex;
+    var hash = CryptoJS.SHA256(password).toString(CryptoJS.enc.Hex);
+    return hash;
 }
 
 function displayErrorMessage(message) {

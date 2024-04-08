@@ -230,7 +230,7 @@ h2{
     z-index: 10;
     top: 0;
     right: 0; 
-    background-color: #0A2558;
+    background-color: #ddd;
     transition: 0.5s;
     padding-top: 60px;
     display: none; /* Hide the drawer by default */
@@ -264,30 +264,70 @@ h2{
 #advanced-filter-value,
 #remove-filter-button {
     margin-right: 10px; 
+    border-radius: 5px; /* Add border radius */
 }
 
 #remove-filter-button {
     border: none; 
     font-size: 17px;
     cursor: pointer;
+    color: red; /* Set the color of the icon to red */
 }
+
 
 #add-filter-button {
     display: flex;
     align-items: center;
     justify-content: center;
     border: none;
-    font-size: 17px; 
+    font-size: 15px; 
     cursor: pointer;
     border-radius: 5px; 
     margin-top: 20px; 
     margin-left: 30px; /* Adjust left margin */
+    padding: 5px 10px; /* Add padding to the button */
+    background-color: #0A2558; /* Set background color */
+    color: white; /* Set text color */
+    transition: background-color 0.3s; /* Add transition effect */
 }
 
+.cloned-filter-container {
+    margin-top: 10px;
+}
+
+
 .button-container {
-    margin-top: 20px; /* Adjust the top margin as needed */
+    margin-top: 30px; /* Adjust the top margin as needed */
     margin-left: 30px; /* Adjust the left margin as needed */
     gap: 40px; /* Add spacing between elements */
+}
+
+#submit-filter {
+    padding: 10px 20px;
+    background-color: #0A2558; 
+    color: white; 
+    border: none; 
+    border-radius: 5px;
+    cursor: pointer; 
+    margin-right: 10px;
+    font-size: 15px;
+    transition: background-color 0.3s; 
+}
+
+#reset-filter {
+    padding: 10px 20px;
+    background-color: red; /* Set the background color of the reset button to red */
+    color: white; 
+    font-size: 15px;
+    border: none; 
+    border-radius: 5px;
+    cursor: pointer; 
+    transition: background-color 0.3s; 
+}
+
+
+#reset-filter {
+    margin-right: 0;
 }
 
 
@@ -346,6 +386,21 @@ h2{
 
     .pagination {
         margin-bottom: 10px; /* Add some spacing between pagination and show entries */
+    }
+
+    .drawer {
+        width: 100%; /* Full width for small screens */
+        max-width: 100%; /* Limit width for small screens */
+    }
+
+    .filter-container,
+    .button-container,
+    .cloned-filter-container {
+        padding: 10px; /* Add padding for smaller screens */
+    }
+
+    .closebtn {
+        right: 10px; /* Adjust the right position for small screens */
     }
 }
 

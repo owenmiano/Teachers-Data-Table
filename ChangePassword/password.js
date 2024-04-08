@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", function() {
             newPassword: hashedNewPassword
         };
         try {
-            const response = await fetch('http://localhost:2001/api/rest/auth/change-password', {
+            const response = await fetch('http://172.20.94.24:2001/api/rest/auth/change-password', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -102,12 +102,8 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     async function hashPassword(password) {
-        const encoder = new TextEncoder();
-        const data = encoder.encode(password);
-        const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-        const hashArray = Array.from(new Uint8Array(hashBuffer));
-        const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-        return hashHex;
+        var hash = CryptoJS.SHA256(password).toString(CryptoJS.enc.Hex);
+        return hash;
     }
 
     function displayErrorMessage(message) {

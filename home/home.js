@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
             role: localStorage.getItem('role')
         };
         try {
-            const response = await fetch('http://localhost:2001/api/rest/auth/logout', {
+            const response = await fetch('http://172.20.94.24:2001/api/rest/auth/logout', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 // Remove userinfo from localStorage
                 localStorage.clear();
                 // Redirect to login page
-                window.location.href = "/login/index.html";
+                window.location.href = "../login/index.html";
                // Prevent going back to the previous page
                 window.history.pushState(null, "", window.location.href);
                 window.addEventListener("popstate", function(event) {

@@ -7,13 +7,13 @@ document.addEventListener("DOMContentLoaded", function() {
     const expirationDate = expirationTime ? new Date(parseInt(expirationTime)) : null;
 
     if (!activeUser || (expirationDate && expirationDate < currentDate)) {
-        if (window.location.pathname !== "/login/index.html") {
+        if (window.location.pathname !== "../login/index.html") {
              // Clear stored user data
             localStorage.removeItem('username');
             localStorage.removeItem('token');
             localStorage.removeItem('role');
             localStorage.removeItem('expirationTime');
-            window.location.href = "/login/index.html";
+            window.location.href = "../login/index.html";
         }
     } else {
         // User is logged in and session is valid
@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", function() {
         async function refreshToken() {
             const token = localStorage.getItem('token');
             try {
-                const response = await fetch('http://localhost:2001/api/rest/auth/refresh-token', {
+                const response = await fetch('http://172.20.94.24:2001/api/rest/auth/refresh-token', {
                     method: 'PUT',
                     headers: {
                         'Authorization': `Bearer ${token}`,
