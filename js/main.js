@@ -7,14 +7,15 @@ document.addEventListener("DOMContentLoaded", function() {
     const expirationDate = expirationTime ? new Date(parseInt(expirationTime)) : null;
 
     if (!activeUser || (expirationDate && expirationDate < currentDate)) {
-        if (window.location.pathname !== "../login/index.html") {
-             // Clear stored user data
+        if (window.location.pathname !== "/html/login.html") {
+            // Clear stored user data
             localStorage.removeItem('username');
             localStorage.removeItem('token');
             localStorage.removeItem('role');
             localStorage.removeItem('expirationTime');
-            window.location.href = "../login/index.html";
+            window.location.href = "../html/login.html";
         }
+        
     } else {
         // User is logged in and session is valid
 
@@ -46,6 +47,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     localStorage.setItem('expirationTime', responseData.userInfo.expirationTime);
                 }
                 else {
+                    window.location.href = "../html/login.html";
                     const errorData = await response.json();
                     alert(errorData.message);
                 }

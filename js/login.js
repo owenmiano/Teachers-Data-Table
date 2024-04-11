@@ -17,22 +17,40 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
+    const showError = (field, errorText) => {
+        field.classList.add("error");
+        const errorElement = document.createElement("small");
+        errorElement.classList.add("error-text");
+        errorElement.innerText = errorText;
+        const formGroup = field.closest(".form-group");
+        formGroup.appendChild(errorElement);
+    }    
+    
     loginForm.addEventListener("submit", function(event) {
         event.preventDefault();
-
+    
         // Get input values
         const username = usernameInput.value.trim();
         const password = passwordInput.value.trim();
-
+    
+        // Clear any existing error messages
+        document.querySelectorAll(".form-group .error").forEach(field => field.classList.remove("error"));
+        document.querySelectorAll(".error-text").forEach(errorText => errorText.remove())
+        document.getElementById("server-error").textContent = "";
         // Validation
-        if (!username || !password) {
-            displayErrorMessage("Both username and password fields are required");
+        if (username === "") {
+            showError(usernameInput, "Please enter your username");
+            return;
+        } 
+        if (password === "") {
+            showError(passwordInput, "Please enter your password");
             return;
         }
-
+    
         // Call login API
         login(username, password);
     });
+    
 
     document.getElementById("loginButton").addEventListener("click", function(event) {
         loginForm.dispatchEvent(new Event("submit"));
@@ -54,7 +72,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 },
                 body: JSON.stringify(requestBody)
             });
-            console.log("request body",)
+            console.log("request body",requestBody)
             if (response.ok) {
                 // Login successful
                 const responseData = await response.json();     
@@ -64,7 +82,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 localStorage.setItem('role', responseData.userInfo.role);
                 localStorage.setItem('expirationTime', responseData.userInfo.expirationTime);
                 // Redirect to home page
-                window.location.href = "../home/index.html";
+                window.location.href = "../html/home.html";
                 //Prevent going back to the login page
                 window.history.pushState(null, "", window.location.href);
                 window.addEventListener("popstate", function() {
@@ -88,30 +106,11 @@ async function hashPassword(password) {
     return hash;
 }
 
+// Function to display server error message 
 function displayErrorMessage(message) {
-    // Check if an error message with the same content already exists
-    const existingErrorMessage = document.querySelector(".error-message");
-    if (existingErrorMessage && existingErrorMessage.textContent === message) {
-        return; 
-    }
-
-    const errorMessage = document.createElement("div");
-    errorMessage.classList.add("error-message");
-    errorMessage.textContent = message;
-
-    clearErrorMessage();
-
-    const errorMessages = document.getElementById("errorMessages");
-    if (errorMessages) {
-        errorMessages.appendChild(errorMessage);
-    }
-}
-
-
-function clearErrorMessage() {
-    const errorMessages = document.getElementById("errorMessages");
-    if (errorMessages) {
-        errorMessages.innerHTML = ""; 
+    const errorMessage = document.getElementById("server-error");
+    if (errorMessage) {
+        errorMessage.textContent = message;
     }
 }
 

@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 // Remove userinfo from localStorage
                 localStorage.clear();
                 // Redirect to login page
-                window.location.href = "../login/index.html";
+                window.location.href = "../html/login.html";
                // Prevent going back to the previous page
                 window.history.pushState(null, "", window.location.href);
                 window.addEventListener("popstate", function(event) {

@@ -1,3 +1,4 @@
+/* Import Google font - Poppins */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
 
 * {
@@ -10,6 +11,7 @@
 body {
   min-height: 100vh;
   width: 100%;
+  background: #859bb1c4;
 }
 
 .container {
@@ -18,82 +20,105 @@ body {
   left: 50%;
   transform: translate(-50%, -50%);
   max-width: 430px;
-  width: 90%; 
-  background: rgba(255, 255, 255, 0.8);
+  width: 50%;
+  background: #fff;
   border-radius: 7px;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
 }
 
+
 .container .form {
   padding: 2rem;
 }
+form .form-group {
+  margin-bottom: 10px;
+  position: relative;
+}
 
 .form header {
-  font-size: 1.3rem;
+  font-size: 1.5rem;
   font-weight: 500;
   text-align: center;
   margin-bottom: 1.2rem;
   color: #0A2558;
 }
-
-.form input {
+.form-group label {
+  display: block; /* Ensure labels are displayed as block elements */
+  margin-bottom: 0.5rem; /* Add margin below labels */
+}
+.form-group input {
   height: 50px; 
   width: 100%;
   padding: 0 15px;
   font-size: 14px; 
-  margin-bottom: 1rem; 
-  border: 1px solid #ddd;
   border-radius: 6px;
   outline: none;
 }
-
+/* 
 .form input:focus {
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+} */
+
+.form a {
+  font-size: 15px; 
+  color: #2697FF;
+  text-decoration: none;
 }
 
+.form a:hover {
+  text-decoration: underline;
+}
 
 .form input.button {
   color: #fff;
   background: #0A2558;
   font-size: 0.9rem;
-  margin-top: 1.5rem; 
+  margin-top: 1.2rem; 
   font-weight: 500;
   letter-spacing: 1px;
   cursor: pointer;
   transition: 0.4s;
 }
 
-.change.password.form {
-  position: relative; /* Add this line */
+.login.form {
+  position: relative; 
 }
 
-.password-input {
+.form-group .password-input {
   position: relative;
 }
 
-.password-input input {
+.form-group .password-input input {
   padding-right: 30px;
 }
 
-.password-input #togglePassword1,#togglePassword2,#togglePassword3 {
+.form-group .password-input #togglePassword {
   position: absolute;
   right: 10px; 
-  top: calc(50% - 0.5em);
+  top: 50%; /* Adjusted to 50% */
   transform: translateY(-50%);
   cursor: pointer;
 }
 
-#errorMessages {
-  color: red;
+
+
+
+.error{
+  border-color: red ;
+}
+
+.error-text {
+  color: red; 
+}
+
+.server-error-message {
+  color: red; 
   text-align: center;
-  margin-bottom: 20px; 
 }
-
-
-.form input.button:hover {
-  background: #006653;
-}
-
+/* .form input.button:hover {
+  background: #0A2558;
+} */
+ 
 
 
 /* Media query for responsiveness below small screens */
@@ -102,7 +127,7 @@ body {
     width: 90%;
   }
 
-  .form input {
+  .form-group input {
     height: 40px;
     font-size: 14px;
     margin-bottom: 0.8rem;

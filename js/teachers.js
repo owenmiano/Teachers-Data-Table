@@ -39,11 +39,11 @@ document.addEventListener("DOMContentLoaded", function() {
     });
     
     // Add event listener to close the drawer when clicked outside
-    window.addEventListener("click", function(event) {
-        if (event.target === filterDrawer) {
-            closeFilterDrawer();
-        }
-    });
+    // window.addEventListener("click", function(event) {
+    //     if (event.target === filterDrawer) {
+    //         closeFilterDrawer();
+    //     }
+    // });
 
 
     fetchData(currentPage, pageSize);
@@ -82,9 +82,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
         let url = `http://172.20.94.24:2001/api/rest/teachers?page=${page}&pageSize=${pageSize}`;
         if (filter !== '') {
-            url += `&filter=${filter}`;
+            currentPage = 1;
+            url = `http://172.20.94.24:2001/api/rest/teachers?page=${currentPage}&pageSize=${pageSize}&filter=${filter}`;
         }
-
         fetch(url, requestOptions)
             .then(response => response.json())
             .then(data => {
@@ -243,12 +243,30 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
 
-// Function to create and append the filter elements
 document.getElementById("add-filter-button").addEventListener("click", function(event) {
-    event.preventDefault(); // Prevent the default form submission behavior
-    addFilter(); // Call the addFilter function
+    event.preventDefault(); 
+    addFilter(); 
 });
 
+// Array of logical operators
+const logicalOperators = [
+    { value: "AND", label: "AND" },
+    { value: "OR", label: "OR" },
+    // { value: "not", label: "NOT" }
+  ];
+
+  function generateLogicalOperatorSelect() {
+    const select = document.createElement("select");
+    select.id = "advanced-logical-operator"; // Set the ID
+    logicalOperators.forEach(operator => {
+      const option = document.createElement("option");
+      option.value = operator.value;
+      option.textContent = operator.label;
+      select.appendChild(option);
+    });
+    return select;
+  }
+  
 
 function addFilter() {
     // Clone the filter container
@@ -256,33 +274,96 @@ function addFilter() {
 
     // Clear input values in the cloned filter container
     filterContainer.querySelector("#advanced-filter-column").value = "";
-    filterContainer.querySelector("#advanced-filter-relation").value = "eq";
+    filterContainer.querySelector("#advanced-filter-relation").value = "";
     filterContainer.querySelector("#advanced-filter-value").value = "";
 
-    // Append the cloned filter container after the last filter container
-    const filterContainerWrapper = document.getElementById("cloned-filter-container");
-    filterContainerWrapper.appendChild(filterContainer);
+ 
+
+    // Append the filter container inside the cloned filter container
+    const clonedFilterContainer = document.getElementById("cloned-filter-container");
+    clonedFilterContainer.appendChild(filterContainer);
+    const logicalOperatorSelect = generateLogicalOperatorSelect();
+    // logicalOperatorSelect.style.marginTop = "10px";
+    logicalOperatorSelect.style.marginLeft = "20px";
+    logicalOperatorSelect.style.marginRight = "5px";
+    logicalOperatorSelect.style.borderRadius = "5px";
+    filterContainer.insertBefore(logicalOperatorSelect, filterContainer.firstChild);
+
+    filterContainer.style.marginTop = "10px";
+
 
     // Get remove buttons inside the newly added filter container
-    const removeButtons = filterContainer.querySelectorAll(".remove-filter-button");
+    const removeButtons = filterContainer.querySelectorAll("#remove-filter-button");
     removeButtons.forEach(button => {
         button.addEventListener("click", removeFilter);
-        button.addEventListener("click", function(event) {
-            event.stopPropagation(); // Stop the event from propagating further
-        });
     });
 }
 
 function removeFilter(event) {
-    event.preventDefault(); // Prevent default form submission behavior
-    console.log("remove button clicked");
+    event.preventDefault();
     const button = event.target;
-    const containerToRemove = button.closest('.cloned-filter-container');
+    const containerToRemove = button.closest('.filter-container'); // Target the filter container
     if (containerToRemove) {
         containerToRemove.remove();
     }
 }
 
-// Event listener to remove a filter container
+const submitFilterButton = document.getElementById("submit-filter");
+submitFilterButton.addEventListener("click", function (event) {
+    event.preventDefault(); 
+   gatherFilterData();
+
+});
+
+function gatherFilterData() {
+    const filterContainers = document.querySelectorAll('.filter-container');
+    let filters = '';
+
+    filterContainers.forEach((container, index) => {
+        const select = container.querySelector('#advanced-filter-column');
+        const relation = container.querySelector('#advanced-filter-relation');
+        const filterValueElement = container.querySelector('#advanced-filter-value');
+        const search = filterValueElement.value.trim();
+        const logicalOperator = container.querySelector('#advanced-logical-operator'); // Update to select by ID
+
+        if (select && relation && filterValueElement) {
+            const logicalOperatorValue = logicalOperator ? logicalOperator.value : '';
+
+            // Encode the logical operator to match the Java code logic
+            let encodedLogicalOperator = '';
+            if (logicalOperatorValue === 'AND') {
+                encodedLogicalOperator = '|AND|';
+            } else if (logicalOperatorValue === 'OR') {
+                encodedLogicalOperator = '|OR|';
+            }
+            let separator = '';
+            if (index !== 0 && encodedLogicalOperator) {
+                separator = encodedLogicalOperator;
+            }
+            else if (index !== 0) {
+                separator = '|AND'; 
+            }
+            const filterString = `${separator}${select.value}:${relation.value}:${search}`;
+            filters += filterString + '';
+        }
+    });
+
+    
+    const encodedFilters = filters.replace(/\|AND\|/g, "%7CAND%7C").replace(/\|OR\|/g, "%7COR%7C");
+    fetchData(currentPage, pageSize, encodedFilters);
+}
+
+
+
+
+// Attach an event listener to the reset button
+const resetFilterButton = document.getElementById("reset-filter");
+resetFilterButton.addEventListener("click", resetFilter);
+
+function resetFilter() {
+    const clonedFilterContainer = document.getElementById("cloned-filter-container");
+    clonedFilterContainer.innerHTML = ''; 
+    fetchData(currentPage,pageSize)
+}
 
 });

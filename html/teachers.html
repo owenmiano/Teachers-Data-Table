@@ -4,13 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Online Exam System</title>
-    <link rel="stylesheet" href="index.css" />
-    <link rel="stylesheet" href="../home/index.css">
+    <link rel="stylesheet" href="../css/teachers.css" />
+    <link rel="stylesheet" href="../css/home.css">
     <link
       href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css"
       rel="stylesheet"
     />
-    <script src="../main/main.js"></script>
+    <script src="../js/main.js"></script>
   </head>
   <body>
     <div class="sidebar">
@@ -26,13 +26,13 @@
               </a>
             </li> -->
         <li class="nav-item">
-          <a href="../TeacherTable/index.html">
+          <a href="../html/teachers.html">
             <i class="bx bx-table"></i>
             <span class="links_name">Teachers</span>
           </a>
         </li>
         <li class="nav-item">
-          <a href="../ChangePassword/index.html">
+          <a href="../html/ChangePassword.html">
             <i class="bx bx-lock-alt"></i>
             <span class="links_name">Change Password</span>
           </a>
@@ -85,7 +85,7 @@
           </select>
 
           <div class="search-container">
-            <input type="search" id="search-input" placeholder="Search..">
+            <input type="search" id="search-input" placeholder=" Search..">
             <button id="search-button"><i class="bx bx-search"></i></button>
         </div>
         
@@ -158,14 +158,13 @@
                     <option value="lte">Less Than or Equal To</option>
                     <option value="gt">Greater Than</option>
                     <option value="gte">Greater Than or Equal To</option>
-                    <option value="like">Like</option>
                     <option value="between">Between</option>
                 </select>
         
-                <input type="text" id="advanced-filter-value" placeholder="Search...">
+                <input type="text" id="advanced-filter-value" placeholder=" Search...">
                 <button id="remove-filter-button">
-                    <i class="bx bx-minus"></i>
-                </button>
+                  <i class="bx bx-trash"></i>
+              </button>
             </div>
             <div class="cloned-filter-container" id="cloned-filter-container">
 
@@ -190,7 +189,7 @@
   
     
   </div>
-    <script src="../home/home.js"></script>
-    <script src="teachers.js"></script>
+    <script src="../js/home.js"></script>
+    <script src="../js/teachers.js"></script>
   </body>
 </html>
